@@ -21,7 +21,7 @@ public class UsuarioController {
      * @ResponseBody permite enviar dentro del cuerpo de la solicitud HTTP
      *@GetMapping( path = "/{id}") : si el cliente solicita por http://localhost:8080/usuario/"numeroId", le devuelve
      * extactamente el usuario que representa ese id, es un nuevo servicio
-     * @PathVariable("id") :  tomara el numero ingreado en la url como parametro de entrada para activar el metodo
+     * @PathVariable("id") :  convierte la entrada del path a un parametro para tratarlo dentro del metodo
      * @GetMapping("/query") : Activa un nuevo servicio (metodo que esta etiquetado), ejemplo:
      *                          http://localhost:8080/usuario/query?prioridad=5
      */
@@ -70,11 +70,21 @@ public class UsuarioController {
      * @return : retorna un String con un mensaje que indica cuantos usuarios tiene la base de datos
      * en el momento que es solicitada
      */
-    @GetMapping("/cuantosHay")
+    @GetMapping("/cuantosUsuariosHay")
     public String cuantosUsuariosHay(){
         long usuariosEnBaseDeDatos = this.usuarioService.contarUsuarios();
         return "La base de datos tiene: " + usuariosEnBaseDeDatos + " usuarios";
     }
 
+    /**
+     * Endpoint para realizar busqueda por email del usuario en forma de query
+     * @param email : recibe String de email que desea buscar
+     * @return : devuelve Json de los datos del usuario que corresponde al email ingresado
+     */
+
+    @GetMapping("/email")
+    public UsuarioModel buscarPorEmail(@RequestParam("email")  String email){
+        return this.usuarioService.buscarPorEmail(email);
+    }
 
 }

@@ -73,8 +73,21 @@ public class UsuarioService {
         }
     }
 
+    /**
+     * Implementa el metodo Count de CrudRepository para contar cuantos usuarios
+     * tiene la base de datos al momento de la solicitud
+     * @return : Long del numeor de usuario encontrados en la base de datos
+     */
     public Long contarUsuarios(){
         return usuarioRepository.count();
     }
 
+    /**
+     * Metodo para buscar usuario por email
+     * @param email :  recibe String del usuario que se desea buscar
+     * @return : retorna los datos del usuario que corresponde al email ingresado
+     */
+    public UsuarioModel buscarPorEmail(String email){
+        return usuarioRepository.findByEmail(email);
+    }
 }

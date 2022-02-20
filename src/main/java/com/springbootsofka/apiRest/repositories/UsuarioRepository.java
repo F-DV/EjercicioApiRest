@@ -23,5 +23,10 @@ public interface UsuarioRepository extends CrudRepository<UsuarioModel, Long> {
      */
     public abstract ArrayList<UsuarioModel> findByPrioridad(Integer prioridad);
 
-
+    /**
+     *
+     * @param email : recibe email que va a buscar
+     * @return : retorna los datos del usuario que corresponde a ese email
+     */
+    public abstract UsuarioModel findByEmail(String email);
 }
