@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuario")
@@ -18,7 +19,11 @@ public class UsuarioController {
      * @GetMapping() : le indica a spring que siempre que recibamos una peticion tipo Get, ejecute el metodo que referencia
      * @PostMapping() : Ejecuta peticiones de tipo Post
      * @ResponseBody permite enviar dentro del cuerpo de la solicitud HTTP
-     *
+     *@GetMapping( path = "/{id}") : si el cliente solicita por http://localhost:8080/usuario/"numeroId", le devuelve
+     * extactamente el usuario que representa ese id, es un nuevo servicio
+     * @PathVariable("id") :  tomara el numero ingreado en la url como parametro de entrada para activar el metodo
+     * @GetMapping("/query") : Activa un nuevo servicio (metodo que esta etiquetado), ejemplo:
+     *                          http://localhost:8080/usuario/query?prioridad=5
      */
 
     @Autowired
@@ -40,4 +45,23 @@ public class UsuarioController {
         return this.usuarioService.guardarUsuario(usuario);
     }
 
+    @GetMapping( path = "/{id}")
+    public Optional<UsuarioModel> obtenerUsuarioPorId(@PathVariable("id") Long id){
+        return this.usuarioService.obtenerPorId(id);
+    }
+
+    @GetMapping("/query")
+    public ArrayList<UsuarioModel> obtenerPorPrioridad(@RequestParam("prioridad") Integer prioridad){
+        return this.usuarioService.obtenerPorPrioridad(prioridad);
+    }
+
+    @DeleteMapping( path = "/{id}")
+    public String eliminarPorId(@PathVariable("id") Long id){
+        boolean ok = this.usuarioService.eliminarUsuario(id);
+        if(ok){
+            return "Se elimino el usuario con id: " + id;
+        }else{
+            return "No pudo eliminar el usuario con id: " + id;
+        }
+    }
 }
