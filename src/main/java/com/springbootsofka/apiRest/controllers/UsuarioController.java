@@ -61,7 +61,20 @@ public class UsuarioController {
         if(ok){
             return "Se elimino el usuario con id: " + id;
         }else{
-            return "No pudo eliminar el usuario con id: " + id;
+            return "No pudo eliminar el usuario con id : " + id;
         }
     }
+
+    /**
+     * Metodo para devolver el numero de usuarios que tiene la base de datos
+     * @return : retorna un String con un mensaje que indica cuantos usuarios tiene la base de datos
+     * en el momento que es solicitada
+     */
+    @GetMapping("/cuantosHay")
+    public String cuantosUsuariosHay(){
+        long usuariosEnBaseDeDatos = this.usuarioService.contarUsuarios();
+        return "La base de datos tiene: " + usuariosEnBaseDeDatos + " usuarios";
+    }
+
+
 }

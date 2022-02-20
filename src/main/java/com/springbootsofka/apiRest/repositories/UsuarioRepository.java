@@ -22,4 +22,6 @@ public interface UsuarioRepository extends CrudRepository<UsuarioModel, Long> {
      * @return : devuelve un arrayList con los usuariomodel de esa prioridad
      */
     public abstract ArrayList<UsuarioModel> findByPrioridad(Integer prioridad);
+
+
 }
