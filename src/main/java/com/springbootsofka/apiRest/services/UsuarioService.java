@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 public class UsuarioService {
@@ -36,5 +37,42 @@ public class UsuarioService {
     public UsuarioModel guardarUsuario(UsuarioModel usuario){
         return usuarioRepository.save(usuario);
     }
+
+    /**
+     * El metodo debe ser de tipo Optional, ya que si no encuentra el usuario del id ingresado, puede fallar,
+     * Lo que hace optional es que nos evita tener que preocuparnos si un dato esta o no y no tendremos
+     * el fallo por nullPointerException. Optional, solo es para datos de retorno
+     * @param id : recibe el id a buscar
+     * @return : retorna el usuario que representa el id ingresado
+     */
+    public Optional<UsuarioModel> obtenerPorId(Long id){
+        return usuarioRepository.findById(id);
+    }
+
+    /**
+     * Hacemos uso del metodo abstracto programado en UsuarioRepository
+     * @param prioridad : recibimos el tipo de prioridad
+     * @return : retornamos una lista con los usuario que corresponden a esa prioridad
+     */
+    public ArrayList<UsuarioModel> obtenerPorPrioridad(Integer prioridad){
+        return usuarioRepository.findByPrioridad(prioridad);
+    }
+
+    /**
+     * Debemos programar el metodo try catch, ya que el metodo deleteById genera un error si no encuentra el id
+     * que va a eliminar
+     * @param id : id del usuario a eliminar
+     * @return : true, si fue eliminado correctamente o false si no se pudo eliminar.
+     */
+    public boolean eliminarUsuario(long id){
+        try{
+            usuarioRepository.deleteById(id);
+            return true;
+        }catch(Exception err){
+            return false;
+        }
+    }
+
+
 
 }
